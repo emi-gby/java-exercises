@@ -11,13 +11,13 @@ Each project is **self-contained** and can be run individually.
 The repository is organized as follows:
 
 java-exercises/  
-├── DiceRoll/ 
+├── DiceRoll/  
 │ └── src/  
 	│ └── Main.java  
-├── Quizgame/ 
+├── Quizgame/  
 │ └── src/  
 	│ └── Main.java  
-├── RockPaperScissors/ 
+├── RockPaperScissors/  
 │ └── src/  
 	│ └── Main.java  
 └── README.md 
