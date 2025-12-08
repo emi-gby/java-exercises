@@ -20,6 +20,9 @@ java-exercises/
 ├── RockPaperScissors/  
 │ └── src/  
 	│ └── Main.java  
+├── SlotMachine/  
+│ └── src/  
+	│ └── Main.java  
 └── README.md 
 
 
@@ -44,6 +47,8 @@ Each `src` folder contains the **Java source code** for that project.
     
 3. **Rock Paper Scissors Game** – Console-based game with computer and player choices.
 
+4. **Slot Machine Game** - simple console-based simulator of a slot machine.
+
 ---
 
 ## 📌 Notes
@@ -64,5 +69,5 @@ If you make improvements, you can create a pull request.
 
 - [Java Documentation](https://docs.oracle.com/en/java/)
     
-- [IntelliJ IDEA](https://www.jetbrains.com/idea/)
+- [ Java Full Course for free ☕ (2025) - Bro Code](https://youtu.be/xTtL8E4LzTQ)
 
