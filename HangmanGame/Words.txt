@@ -1,0 +1,2 @@
+cat, dog, lion, panda, zebra, tiger, giraffe, dolphin, kangaroo, elephant, fox,
+ whale, leopard, cheetah, rabbit, monkey, otter, wolf, hippo, rhino
