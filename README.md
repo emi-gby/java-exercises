@@ -14,9 +14,10 @@ java-exercises/
 ├── DiceRoll/  
 │ └── src/  
 	│ └── Main.java  
-├── Quizgame/  
-│ └── src/  
-	│ └── Main.java  
+├── Mini-Projects/  
+│ └── QuizGame/  
+│ └── TaskManager/  
+│
 ├── RockPaperScissors/  
 │ └── src/  
 	│ └── Main.java  
