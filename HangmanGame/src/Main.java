@@ -67,7 +67,7 @@ public class Main {
             System.out.println("Guessed letters: " + guessedLetters);
         }
 
-        if(numAttempts>=6){
+        if(numAttempts>=7){
             System.out.printf("\nYOU LOSE!\nThe word was %s", randomWord);
         }
         else{
