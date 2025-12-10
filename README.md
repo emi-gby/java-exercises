@@ -14,7 +14,7 @@ java-exercises/
 ├── BankAccountManager/  
 │ └── src/  
 	│ └── Main.java  
-	  └── AccountDetails.java  
+	│ └── AccountDetails.java  
 ├── HangmanGame/  
 │ └── src/  
 	│ └── Main.java  
