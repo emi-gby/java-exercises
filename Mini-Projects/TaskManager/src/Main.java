@@ -26,7 +26,7 @@ public class Main {
                 case "1" -> addTask(scanner,tasks);
                 case "2" -> showTask(tasks);
                 case "3" -> completeTask(scanner,tasks);
-                case "Q" -> System.out.println("System finalized.");
+                case "Q" -> System.out.println("System finalization completed.");
                 default -> System.out.println("Not a valid option!");
             }
         }

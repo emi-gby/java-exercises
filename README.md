@@ -11,13 +11,16 @@ Each project is **self-contained** and can be run individually.
 The repository is organized as follows:
 
 java-exercises/  
-├── DiceRoll/  
+├── BankAccountManager/  
+│ └── src/  
+	│ └── Main.java  
+	  └── AccountDetails.java  
+├── HangmanGame/  
 │ └── src/  
 	│ └── Main.java  
 ├── Mini-Projects/  
 │ └── QuizGame/  
 │ └── TaskManager/  
-│
 ├── RockPaperScissors/  
 │ └── src/  
 	│ └── Main.java  
@@ -33,7 +36,7 @@ Each `src` folder contains the **Java source code** for that project.
 
 ## 🚀 How to Run
 
-1. Open the project in **IntelliJ IDEA** or any Java IDE.
+1. Open the project in any Java IDE.
 2. Navigate to the `src` folder of the project you want to run.
 3. Compile and run `Main.java`:
 
@@ -42,7 +45,7 @@ Each `src` folder contains the **Java source code** for that project.
 
 ## 📝 Projects Included
 
-1. **Dice Roller** – A number (user defined) of dices are rolled randomly .
+1. *BankAccountManager** – Console-based program that let the user create an account, deposit money, withdraw money and view account details.
     
 2. **Quiz Game** – Console-based quiz game with multiple-choice questions.
     
