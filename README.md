@@ -15,7 +15,7 @@ java-exercises/
 │ └── src/  
 	│ └── Main.java  
 	│ └── AccountDetails.java  
-├── HangmanGame/  
+├── StudentGradeBook/  
 │ └── src/  
 	│ └── Main.java  
 ├── Mini-Projects/  
