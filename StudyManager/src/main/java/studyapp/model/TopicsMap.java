@@ -5,17 +5,19 @@ import studyapp.enums.CompleteTopicResult;
 import java.util.Collection;
 import java.util.TreeMap;
 
-public class TopicsList {
+public class TopicsMap {
 
     private final TreeMap<Integer, Topic> topics;
 
-    public TopicsList(TreeMap<Integer, Topic> topics) {
+    public TopicsMap(TreeMap<Integer, Topic> topics) {
         this.topics = topics;
     }
 
     private int getNewId() {
         return topics.isEmpty() ? 1 : topics.lastKey() + 1;
     }
+
+    public TreeMap<Integer, Topic> getTreeMap() { return topics; }
 
     public Topic getTopic(int id) {
         return topics.get(id);
