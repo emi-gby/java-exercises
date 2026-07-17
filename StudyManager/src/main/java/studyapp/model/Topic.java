@@ -11,31 +11,21 @@ public class Topic {
     @JsonProperty("is_completed")
     private boolean isCompleted;
 
+    //Jackson needs this
     Topic() {}
 
     public Topic(int id, String topicName) {
         this.id = id;
         this.topicName = topicName;
+        this.isCompleted = false;
     }
 
-    public String getTopicName() {
-        return this.topicName;
-    }
+    public String getTopicName() { return this.topicName; }
+    public void setTopicName(String topicName) { this.topicName = topicName; }
 
-    public int getId() {
-        return this.id;
-    }
+    public int getId() { return this.id; }
 
-    public boolean getIsCompleted() {
-        return this.isCompleted;
-    }
-
-    public void setSubjectName(String newName) {
-        this.topicName = newName;
-    }
-
-    public void setIsCompleted(boolean newStatus) {
-        this.isCompleted = newStatus;
-    }
+    public boolean getIsCompleted() { return this.isCompleted; }
+    public void setIsCompleted(boolean isCompleted) { this.isCompleted = isCompleted; }
 
 }
