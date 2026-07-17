@@ -1,38 +1,63 @@
 package studyapp;
 
-import studyapp.model.StudyTopic;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import studyapp.model.Topic;
 import studyapp.model.TopicsList;
 import studyapp.util.Input;
 import studyapp.enums.CompleteTopicResult;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
-        TreeMap<Integer, StudyTopic> listTopics = new TreeMap<>();
-        TopicsList topicsList = new TopicsList(listTopics);
+        ObjectMapper mapper = new ObjectMapper();
 
-        systemStart(topicsList);
+        File file = new File("src/main/resources/topics.json");
 
-        scanner.close();
+        List<Topic> jsonTopics = mapper.readValue(file,
+                new TypeReference<List<Topic>>() {});
+        TreeMap<Integer, Topic> topics = new TreeMap<>(
+                jsonTopics.stream()
+                        .collect(Collectors.toMap(
+                                Topic::getId,
+                                topic -> topic
+                        ))
+        );
+        TopicsList topicsList = new TopicsList(topics);
+
+        systemStart(mapper, file, topics, topicsList);
+
+           scanner.close();
     }
 
-    public static void systemStart(TopicsList topicsList) {
+    public static void updateJson(ObjectMapper mapper, File file, TreeMap<Integer, Topic> topics) throws IOException {
+        mapper.writerWithDefaultPrettyPrinter()
+                .writeValue(file, topics.values());
+    }
+
+    public static void systemStart(ObjectMapper mapper, File file, TreeMap<Integer,
+            Topic> topics,TopicsList topicsList) throws IOException {
+
         int option;
 
         do {
             option = displayMenu();
 
             switch (option) {
-                case 1 -> addTopic(topicsList);
+                case 1 -> addTopic(mapper, file, topics, topicsList);
                 case 2 -> listTopics(topicsList);
                 case 3 -> searchTopicsByName(topicsList);
-                case 4 -> concludeTopic(topicsList);
-                case 5 -> editTopic(topicsList);
-                case 6 -> deleteTopic(topicsList);
+                case 4 -> concludeTopic(mapper, file, topics, topicsList);
+                case 5 -> editTopic(mapper, file, topics, topicsList);
+                case 6 -> deleteTopic(mapper, file, topics, topicsList);
                 case 0 -> System.out.println("Exiting the system.");
                 default -> System.out.println("This is not an option.");
             }
@@ -58,26 +83,28 @@ public class Main {
         return Input.readInt("Enter your choice: ");
     }
 
-    public static void displayTopic(StudyTopic topic) {
+    public static void displayTopic(Topic topic) {
         if (topic == null) {
             System.out.println("Topic not found.");
             return;
         }
 
         System.out.printf("Topic Name: %s\nTopic Id: %d\nConcluded: %b\n",
-                topic.getTopicName(), topic.getId(), topic.isCompleted());
+                topic.getTopicName(), topic.getId(), topic.getIsCompleted());
     }
 
-    public static void addTopic(TopicsList topicsList) {
+    public static void addTopic(ObjectMapper mapper, File file, TreeMap<Integer,
+            Topic> topics,TopicsList topicsList) throws IOException {
         String topicName = Input.readString("Enter topic name: ").toUpperCase();
 
         topicsList.addTopic(topicName);
+        updateJson(mapper, file, topics);
         System.out.println("Topic " + topicName + " Added successfully");
     }
 
     public static void listTopics(TopicsList topicsList) {
-        for (StudyTopic topic : topicsList.getTopics()) {
-            if (topic.isCompleted()) {
+        for (Topic topic : topicsList.getTopics()) {
+            if (topic.getIsCompleted()) {
                 System.out.println("id: "+ topic.getId() + "| [✔] " + topic.getTopicName());
             } else {
                 System.out.println("id: "+ topic.getId() + "| [ ] " + topic.getTopicName());
@@ -88,7 +115,7 @@ public class Main {
     public static void searchTopicsByName(TopicsList topicsList) {
         String name = Input.readString("Enter topic name: ").toUpperCase();
 
-        StudyTopic topic = topicsList.findByName(name);
+        Topic topic = topicsList.findByName(name);
         if (topic == null) {
             System.out.println("Topic not found.");
             return;
@@ -96,7 +123,8 @@ public class Main {
         displayTopic(topic);
     }
 
-    public static void concludeTopic(TopicsList topicsList) {
+    public static void concludeTopic(ObjectMapper mapper, File file, TreeMap<Integer,
+            Topic> topics,TopicsList topicsList) throws IOException {
         int id = Input.readInt("Enter the topic id: ");
 
         CompleteTopicResult result = topicsList.completeTopic(id);
@@ -105,16 +133,18 @@ public class Main {
             case CompleteTopicResult.NOT_FOUND -> System.out.println("Topic not found.");
             case CompleteTopicResult.ALREADY_COMPLETED -> System.out.println("Topic already completed.");
             case CompleteTopicResult.COMPLETED -> {
-                StudyTopic topic = topicsList.getTopic(id);
+                Topic topic = topicsList.getTopic(id);
+                updateJson(mapper, file, topics);
                 System.out.printf("[✔] %s\nTopic completed.\n", topic.getTopicName());
             }
         }
     }
 
-    public static void editTopic(TopicsList topicsList) {
+    public static void editTopic(ObjectMapper mapper, File file, TreeMap<Integer,
+            Topic> topics,TopicsList topicsList) throws IOException {
         int id = Input.readInt("Enter the topic id: ");
 
-        StudyTopic topic = topicsList.getTopic(id);
+        Topic topic = topicsList.getTopic(id);
 
         if (topic == null) {
             System.out.println("Topic not found.");
@@ -122,10 +152,11 @@ public class Main {
         }
         displayTopic(topic);
 
-        if (topic.isCompleted()) {
+        if (topic.getIsCompleted()) {
             int choice = Input.readInt("1. Change name\n2. Change to not completed\nEnter your choice: ");
             if (choice == 2) {
-                topic.setCompleted(false);
+                topic.setIsCompleted(false);
+                updateJson(mapper, file, topics);
                 System.out.println("Topic Status was updated successfully.");
                 return;
             }
@@ -135,15 +166,17 @@ public class Main {
         System.out.println("Topic " + newName + " was updated successfully.");
     }
 
-    public static void deleteTopic(TopicsList topicsList) {
+    public static void deleteTopic(ObjectMapper mapper, File file, TreeMap<Integer,
+            Topic> topics,TopicsList topicsList) throws IOException {
         int id = Input.readInt("Enter the id of the topic you want to delete: ");
-        StudyTopic topic = topicsList.getTopic(id);
+        Topic topic = topicsList.getTopic(id);
 
         if (topic == null) {
             System.out.println("Topic not found.");
         } else {
-            System.out.printf("Topic %s was deleted successfully.\n", topic.getTopicName());
             topicsList.removeTopic(id);
+            System.out.printf("Topic %s was deleted successfully.\n", topic.getTopicName());
+            updateJson(mapper, file, topics);
         }
 
     }

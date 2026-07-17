@@ -7,9 +7,9 @@ import java.util.TreeMap;
 
 public class TopicsList {
 
-    private final TreeMap<Integer, StudyTopic> topics;
+    private final TreeMap<Integer, Topic> topics;
 
-    public TopicsList(TreeMap<Integer, StudyTopic> topics) {
+    public TopicsList(TreeMap<Integer, Topic> topics) {
         this.topics = topics;
     }
 
@@ -17,22 +17,22 @@ public class TopicsList {
         return topics.isEmpty() ? 1 : topics.lastKey() + 1;
     }
 
-    public StudyTopic getTopic(int id) {
+    public Topic getTopic(int id) {
         return topics.get(id);
     }
 
-    public Collection<StudyTopic> getTopics() {
+    public Collection<Topic> getTopics() {
         return topics.values();
     }
 
     public void addTopic(String topicName) {
         int id = getNewId();
-        StudyTopic topic = new StudyTopic(id, topicName);
+        Topic topic = new Topic(id, topicName);
         topics.put(id, topic);
     }
 
-    public StudyTopic findByName(String topicName) {
-        for (StudyTopic topic : topics.values()) {
+    public Topic findByName(String topicName) {
+        for (Topic topic : topics.values()) {
             if (topic.getTopicName().equals(topicName)) {
                 return topic;
             }
@@ -41,17 +41,17 @@ public class TopicsList {
     }
 
     public CompleteTopicResult completeTopic (int id) {
-        StudyTopic topic = topics.get(id);
+        Topic topic = topics.get(id);
 
         if (topic == null) {
             return CompleteTopicResult.NOT_FOUND;
         }
 
-        if (topic.isCompleted()) {
+        if (topic.getIsCompleted()) {
             return CompleteTopicResult.ALREADY_COMPLETED;
         }
 
-        topic.setCompleted(true);
+        topic.setIsCompleted(true);
         return CompleteTopicResult.COMPLETED;
     }
 
